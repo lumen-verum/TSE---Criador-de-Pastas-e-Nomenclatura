@@ -1,0 +1,20 @@
+# Windows
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+$RECYCLE.BIN/
+
+# Office lock files
+~$*
+
+# Temporários
+*.tmp
+*.log
+*.bak
+
+# Pastas locais de projeto (não publicar conteúdo de cliente)
+# (descomente se um dia vierem a existir pastas reais dentro do repo)
+# /Projetos/
+
+# Configuração do Claude Code (agente + playbook interno)
+.claude/
