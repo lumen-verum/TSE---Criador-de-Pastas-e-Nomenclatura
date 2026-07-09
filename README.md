@@ -129,6 +129,31 @@ O template-mestre em `Cidade\0000 - ISO\` traz também a subpasta `9 - Boletim d
 
 ---
 
+## Onde isso se encaixa — o método TSE (em evolução)
+
+Este script é o **passo 1** de um método maior de organização e execução de projetos de
+elétrica/automação da TSE. A partir da estrutura de pastas + nomenclatura padronizadas, o
+fluxo vem sendo ampliado com apoio de IA (Claude Code):
+
+- **Organização de projeto** — entender escopo → estrutura de pastas → organizar recebidos →
+  índice/numeração → preencher as planilhas de critérios e o relatório semanal.
+- **Força & Instrumentação** — geração assistida das planilhas de cálculo e listas
+  (quadro de cargas, dimensionamento de cabo/eletroduto por NBR, lista de cabos DE→PARA,
+  lista de I/O), memoriais, e desenhos (leitura/geração de **DXF**, rotinas **AutoLISP**).
+- **Arquitetura "cérebro + mão"** — o Claude atua como *cérebro* (lê P&ID/planilhas, calcula,
+  cruza tag × carga × cabo × I-O e gera as tabelas de dados/posições) e o AutoCAD/AutoLISP como
+  *mão* (insere os blocos da biblioteca com atributos, auto-numera, desenha). A troca de dados é
+  por DXF / XLSX / LSP / DOCX.
+- **Interoperabilidade com o ProElétrica** — nos projetos de força, o plugin ProElétrica
+  (Multiplus) lança a fiação, e a inteligência elétrica fica gravada **dentro do próprio DWG**.
+  Regra adotada: o ProElétrica insere os blocos inteligentes; o Claude prepara dados, cálculos e
+  listas e faz leitura/análise — **sem reescrever** o DWG do plugin.
+
+> Os detalhes internos (playbook do método e agentes de automação) ficam **fora deste
+> repositório** por conterem método de trabalho e dependerem de contexto de cliente.
+
+---
+
 ## Licença
 
 [MIT](LICENSE).
