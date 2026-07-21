@@ -149,8 +149,11 @@ fluxo vem sendo ampliado com apoio de IA (Claude Code):
   Regra adotada: o ProElétrica insere os blocos inteligentes; o Claude prepara dados, cálculos e
   listas e faz leitura/análise — **sem reescrever** o DWG do plugin.
 
-> Os detalhes internos (playbook do método e agentes de automação) ficam **fora deste
-> repositório** por conterem método de trabalho e dependerem de contexto de cliente.
+> **Repositório privado do grupo:** o playbook vivo do método
+> (`.claude/tse-playbook-organizacao.md`) e o agente de organização de projetos
+> (`.claude/agents/tse-organizador-projetos.md`) estão versionados aqui. O playbook é
+> **autoaprendente** — cada projeto executado com o Claude Code acrescenta lições ao
+> "Log de aprendizado"; mantenha-o atualizado ao trabalhar.
 
 ---
 

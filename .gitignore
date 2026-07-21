@@ -16,5 +16,5 @@ $RECYCLE.BIN/
 # (descomente se um dia vierem a existir pastas reais dentro do repo)
 # /Projetos/
 
-# Configuração do Claude Code (agente + playbook interno)
-.claude/
+# Configuração do Claude Code — agente + playbook agora VERSIONADOS
+# (repo privado do grupo; o playbook é o conhecimento vivo do método TSE)
