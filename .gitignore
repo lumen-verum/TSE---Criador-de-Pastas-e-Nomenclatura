@@ -12,6 +12,15 @@ $RECYCLE.BIN/
 *.log
 *.bak
 
+# Python
+__pycache__/
+*.pyc
+
+# Exemplos do template-mestre com dados reais de outros projetos
+# (ficam só no disco local; NÃO versionar no repo do grupo)
+Cidade/0000 - ISO/8 - Gerenciamento do Projeto/Unilever DL4 - Projetos_Cronograma R01.mpp
+Cidade/0000 - ISO/9 - Boletim de Medição/7624 - Boletim de Medição_01.xlsx
+
 # Pastas locais de projeto (não publicar conteúdo de cliente)
 # (descomente se um dia vierem a existir pastas reais dentro do repo)
 # /Projetos/
