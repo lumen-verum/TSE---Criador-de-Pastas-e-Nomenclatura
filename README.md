@@ -49,37 +49,55 @@ Sugestão: aponte `$PastaModelo` para a pasta `Cidade\0000 - ISO\` deste reposit
 
 ---
 
-## Diagrama do fluxo
+## O que há neste repositório e como tudo se conecta
+
+```mermaid
+flowchart TB
+    subgraph REPO["📦 Este repositório"]
+        direction LR
+        PS["⚙️ Script PowerShell<br/><b>TSE - Criador de Pastas e Nomenclatura.ps1</b>"]
+        TPL["🗂️ Template-mestre<br/><b>Cidade/0000 - ISO</b><br/>estrutura 0–9 + Índice de numeração<br/>+ modelos das pastas 7 e 8"]
+        CC["🤖 Claude Code<br/><b>.claude/</b><br/>agente tse-organizador-projetos<br/>+ playbook vivo do método"]
+    end
+
+    NOVO([🆕 Projeto novo]) --> PS
+
+    PS -->|"New-TSEProjeto<br/>nº + categoria + descrição"| PASTAS["📁 Estrutura padrão criada<br/>0 - Pedido de Compras … 8 - Gerenciamento<br/>+ Índice + Fontes CAD"]
+    TPL -.->|copiado pelo script| PASTAS
+    PS -->|"New-TSENome<br/>valida as tabelas de códigos"| NOME["🏷️ Nomenclatura padronizada<br/>CA7871-A11-01-PJ-II-R00_Planta_de_Pontos.dwg"]
+
+    PASTAS --> TRAB
+    NOME --> TRAB
+
+    subgraph TRAB["🔄 Execução do projeto (com Claude Code)"]
+        direction TB
+        ORG["Organizar recebidos · preencher Índice de numeração<br/>· Critérios e Informações (pasta 7)<br/>· Relatório Semanal + Cronograma (pasta 8)"]
+        ENG["Engenharia assistida:<br/>planilhas de cálculo e listas (I/O, cabos, quadro de cargas)<br/>· DXF/AutoLISP · documentos de emissão"]
+        ORG --> ENG
+    end
+
+    CC -->|"o agente lê o playbook<br/>e aplica o método"| TRAB
+    TRAB -->|"lições aprendidas voltam<br/>ao Log do playbook"| CC
+
+    style REPO fill:#f0f7f4,stroke:#0a7a5c
+    style TRAB fill:#f4f4fb,stroke:#4a4a9c
+    style NOVO fill:#fff4e0,stroke:#c98a00
+```
+
+**Em resumo:** o script cria a casa e dá nome aos arquivos; o template garante que toda casa
+nasce igual; e o agente + playbook fazem o Claude Code trabalhar do jeito TSE dentro dela —
+aprendendo a cada projeto (o playbook é atualizado com as lições e versionado aqui).
+
+<details>
+<summary>Detalhe: menu do script PowerShell</summary>
 
 ```
-                ┌────────────────────────────────────┐
-                │  TSE - Criador de Pastas...ps1     │
-                └──────────────┬─────────────────────┘
-                               │
-                  Executa direto  /  Dot-source ( . )
-                               │
-                               ▼
-                ┌────────────────────────────────────┐
-                │            MENU                    │
-                │ 1) Criar estrutura de pastas       │
-                │ 2) Gerar nome de arquivo           │
-                │ 3) Ver tabelas de códigos          │
-                │ 0) Sair                            │
-                └──┬──────────┬──────────┬───────────┘
-                   ▼          ▼          ▼
-       ┌──────────────────┐ ┌──────────────────┐ ┌──────────────────┐
-       │ New-TSEProjeto   │ │ New-TSENome      │ │ Show-TSETabela   │
-       │  - Nº, Categoria,│ │  - Cliente, Proj,│ │   CLIENTE / AREA │
-       │    Descrição     │ │    Area, Doc,    │ │   TIPO / CONTEUDO│
-       │  - Cria 9        │ │    Tipo, Conteúdo│ └──────────────────┘
-       │    subpastas     │ │  - Rev, Descrição│
-       │  - Copia modelos │ │  - Valida tabelas│
-       └────────┬─────────┘ └────────┬─────────┘
-                ▼                    ▼
-        Pasta-Projeto\        CO8044-A10-01-
-         0..8 + xlsx +         MC-SG-R00_...
-         jpeg                  .docx
+MENU:  1) Criar estrutura de pastas  →  New-TSEProjeto  (nº, categoria, descrição → pastas 0–8 + modelos)
+       2) Gerar nome de arquivo      →  New-TSENome     (cliente, projeto, área, doc, tipo, conteúdo, rev → nome validado)
+       3) Ver tabelas de códigos     →  Show-TSETabela  (CLIENTE / AREA / TIPO / CONTEUDO)
+       0) Sair
 ```
+</details>
 
 ---
 
