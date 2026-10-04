@@ -10,6 +10,7 @@ Ferramentas genéricas de automação de projeto (CAD + gestão), validadas em p
 | `extrai_blocos_dxf.py` | Python 3 + `pip install ezdxf` |
 | `novo_report_semanal.py` | Python 3 + `pip install pywin32` + Excel instalado (usa COM) |
 | `cronograma_msproject.py` | Python 3 (gera XML puro; abrir no MS Project) |
+| `pid_extrai_tags.py` | Python 3 + `pip install pymupdf` |
 
 ---
 
@@ -67,3 +68,27 @@ A inteligência elétrica do ProElétrica mora **dentro do DWG** (XDATA `PE_DATC
 
 - **Nunca** fabricar bloco ProElétrica por script, nem round-tripar DWG dele por conversores.
 - Quem insere bloco inteligente é o **ProElétrica dentro do AutoCAD** — automações apenas **replicam por `._copy` nativo** (que o plugin reconhece) ou geram geometria burra de apoio (overlays, âncoras, guias).
+
+## pid_extrai_tags.py — tags de instrumento de um P&ID com texto vetorizado
+
+Extrai as tags dos balões de instrumento de um P&ID em PDF **cujo texto foi convertido em curvas** (`get_text()` não devolve nada dentro dos balões) — sem OCR e sem contar à mão. Validado num P&ID real de 3 folhas: 439 balões, 390 TT lidos corretamente.
+
+```bat
+rem passo 1 — gera a folha de contato e o esqueleto de rótulos
+python pid_extrai_tags.py "P&ID.pdf" --paginas 1-3 --amostras
+
+rem passo 2 — abra amostras_glifos.png, preencha rotulos.json e decodifique
+python pid_extrai_tags.py "P&ID.pdf" --paginas 1-3 --rotulos rotulos.json ^
+    --nuvem "0,0.72,0" --saida tags.csv
+```
+
+Como funciona: acha os balões pela geometria (círculo de diâmetro constante, `--diam`), acha os glifos dentro deles, agrupa em linhas (tipo / loop / número), gera uma **assinatura rasterizando a geometria do path** (não a página — rasterizar a página traz o fundo e arruína a assinatura), agrupa as assinaturas por **distância de Hamming** e emite uma folha de contato com uma amostra real de cada grupo para você identificar o caractere olhando uma vez só. Milhares de glifos caem em ~30 grupos.
+
+Dois pontos que custam caro se ignorados:
+
+- **Letras feitas de traço somem no filtro.** Dígitos e letras como S/L/M são contornos preenchidos, mas o `T` costuma ser **dois traços de espessura zero** (barra + haste) — qualquer filtro por largura/altura descarta os dois. A ferramenta já detecta e pareia (barra+haste = `T`, haste sozinha = `I`). Regra geral: se um caractere esperado não aparece no inventário, é filtro, não ausência.
+- **`--nuvem` separa escopo novo de existente.** A nuvem de revisão marca o que é "FUTURO"/novo; a coluna `EM_NUVEM` diz se o balão está dentro dela. A nuvem é desenhada como dezenas de arcos, então a ferramenta **une os traços da cor por proximidade** antes de testar a contenção — filtrar por "traço grande da cor" acha zero.
+
+A ordem dos grupos muda a cada execução (depende da frequência), então **regenere `rotulos.json` com `--amostras` sempre que mudar de desenho ou de parâmetros**.
+
+Lembre que **nem todo balão é instrumento de campo** (ISA 5.1 / NBR 8190): `PSV` é válvula de segurança — elemento final, não instrumento; `ZSO`/`ES`/`LSH` são chaves de outros sistemas. Filtre por tipo antes de fechar quantitativo de I/O. Material de referência em `Área de Trabalho\Claude\Instrumentação`.
