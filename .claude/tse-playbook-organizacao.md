@@ -182,3 +182,21 @@ Método validado: **partir de um projeto-exemplo aprovado** (ex.: estrutura do C
   - **Como separar:** telecom (cabeamento estruturado, fibra, rack de rede) e rede estabilizada (UPS/nobreak, QDE, alimentadores e circuitos estabilizados — disciplina de força) são **entregáveis distintos**. Cada um tem planta, lista de cabos, lista de materiais, eletrodutos/caminhos e código de CONTEÚDO próprios, além de pastas próprias em `4 - Editáveis`/`6 - PDF's` e tarefas próprias no cronograma e no relatório semanal.
   - **Fundamento:** é o padrão da empresa (nos cronogramas de obra, "Rede Com./Fibra" e "Rede Estabilizada" já aparecem como frentes separadas, com a rede estabilizada dentro de Força) e atende à segregação entre telecom e energia da NBR 5410 e da NBR 14565.
   - **Como aplicar:** quando o pedido misturar os dois, separar logo na estrutura de pastas e no índice, antes de desenhar.
+- **2026-10-06** — **Padrão TSE de desenho de projeto de rede (extraído de um projeto-exemplo emitido).**
+  - **Conjunto de documentos:** planta de rede **A1** (1:50 no exemplo); **arquitetura de rede A3** sem escala (rack no alto, painéis em linha, cabos magenta em pente, quadro "Protocolos de comunicação"); **lista de I/O** com coluna "Rede"; **DE-PARA** de cabos. Numeração sequencial única no projeto; força e rede em pastas separadas.
+  - **Folha A1:** grade A–N/1–10. Coluna direita com Referências normativas (NBR 5410), Notas, **Legenda em tabela** (símbolo/descrição), revisões, logos TSE e cliente, Cliente/Projeto/Área/Título, Proj./Exec./Resp./Aprov., Escala, Folha, Data, Número, Rev. Título de vista com logo TSE + escala; **detalhes típicos** em quadros abaixo da planta.
+  - **Folha A3:** carimbo TSE horizontal (Arquivo, Interessado, Autor, Conteúdo, Data, Revisão, Escala, folha).
+  - **Simbologia (modelo em metros, texto 0,10 m a 1:50):**
+    - eletrocalha perfurada = linha dupla tracejada roxa, com rótulo vermelho **`ØLxA h = altura`**;
+    - eletroduto = linha simples, com Ø só quando diferente de 1" (nota padrão);
+    - conduletes LL/T/LB/TB com o tipo escrito;
+    - quadro = triângulo preto preenchido + nome;
+    - cabo de rede = símbolo RJ45 + **`NxCabos`** com linha de chamada (quantidade de cabos no trecho);
+    - base do cliente esmaecida.
+  - **DE-PARA de rede:** `Comprimento = ARRED.PARA.CIMA(Real + 20; 1)`, ou seja, **20 m de folga por cabo**. Capas das planilhas com códigos de emissão PR/CO/LE/CC/AC/PC/LD/CS/IN/PP/CP/CA.
+  - **Como aplicar:** antes de desenhar rede, abrir um projeto-exemplo aprovado e replicar folha, carimbo, camadas e rótulos (método "entregáveis por template", seção 11).
+- **2026-10-06** — **Ler DWG: usar automação COM do AutoCAD com a interface aberta** (o accoreconsole trava quando há autoload de plugin).
+  - **Fluxo:** `Dispatch("AutoCAD.Application")` → `Documents.Open(dwg, True)` (somente leitura) → `SaveAs(dxf, 61)` (DXF 2013) → `Close(False)` → `Quit()` se fui eu que abri. Cada chamada vai em retry, porque o AutoCAD rejeita chamadas enquanto está ocupado.
+  - **Desenho com objetos customizados de plugin** abre o aviso modal **"Save Drawing – Version Conflict"**, que bloqueia o SaveAs. Fechar o aviso com `WM_CLOSE` segue com a gravação; uma thread vigia faz isso sozinha.
+  - O DXF pode ficar 5–6× maior que o DWG.
+  - O DWG original não é alterado.
