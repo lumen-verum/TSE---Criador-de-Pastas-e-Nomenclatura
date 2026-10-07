@@ -200,3 +200,61 @@ Método validado: **partir de um projeto-exemplo aprovado** (ex.: estrutura do C
   - **Desenho com objetos customizados de plugin** abre o aviso modal **"Save Drawing – Version Conflict"**, que bloqueia o SaveAs. Fechar o aviso com `WM_CLOSE` segue com a gravação; uma thread vigia faz isso sozinha.
   - O DXF pode ficar 5–6× maior que o DWG.
   - O DWG original não é alterado.
+- **2026-10-06** — **Projeto de rede segue a arquitetura do cliente À RISCA, link a link.**
+  - **O que aconteceu:** pus fibra nos uplinks dos switches dos painéis só porque os diagramas dos painéis traziam módulo SFP. A arquitetura desenhava esses links como Cat6, e a fibra dela era só interna ao rack (servidores ↔ switches core). O responsável cobrou.
+  - **Regra:** cada cabo da planta, da lista e do DE-PARA corresponde a um link da arquitetura (origem/porta, destino, **mídia conforme a legenda dela**). Se outro documento sugerir mídia diferente (painel, ata, preferência do cliente), registrar como pendência e perguntar. Nunca trocar por conta própria.
+  - **Arquitetura desenhada em Excel com bordas de célula:** dá para extrair a lista de links por programa.
+    - Cada combinação estilo + cor de borda é um tipo de ligação, e a legenda da própria planilha diz qual é qual.
+    - Montar o grafo de segmentos de borda. Num cruzamento (grau 4), seguir reto, sem unir caminhos.
+    - Ligar as pontas ao texto mais próximo (porta/equipamento) e conferir linha a linha com a lista de cabos.
+  - Pela regra de separação, fiz pranchas distintas de par metálico e de fibra, e a de força em documento separado.
+- **2026-10-06** — **Folha e desenho "de sempre" da TSE (correções do responsável sobre a 1ª emissão).**
+  - **Carimbo:** é o da casa, não o do projeto-exemplo (que tinha carimbo de cliente).
+    - Coluna da **largura de A4** no canto inferior direito, com APROVAÇÃO, CONTROLE DE REVISÕES, TSE matriz/filial, CLIENTE, título, ASSINATURAS, ENDEREÇO DA OBRA, CONTEÚDO DA PRANCHA, ESCALA, PRANCHA nn/nn, ARQUIVO, PROJETO, REVISÃO e DATA.
+    - Conteúdo e número da prancha ficam em MTEXT no papel, por folha.
+    - Acima do carimbo: LEGENDA DE SÍMBOLOS e NOTAS.
+    - Impressão com **`TSE.ctb`**.
+    - Fonte do bloco: um projeto de força emitido pela equipe (extrair o bloco do DWG via COM).
+  - **Texto:** um tamanho só, pela tabela da casa ("TAMANHOS DE FONTES PARA CAD"): **2,0 mm no papel** = 0,10 m a 1:50, 0,15 m a 1:75. Misturar 1,2 / 1,6 / 2,0 mm foi apontado como erro.
+  - **Espessura:** layer com espessura "Default" sai com 0,25 mm na impressão (configuração da máquina) e **"estoura" símbolos pequenos** (o RJ45 ficou borrado). Fixar espessura 0 nos layers de desenho; o carimbo fica como está.
+  - **Fiação de força:** as marcas (traços de fase + "T" de terra) **cruzam a linha do circuito**; o C-0x vai em cima e a seção embaixo.
+  - **Conduletes:** o tipo e o giro saem das **saídas reais de cada nó**.
+    - Saídas dos blocos do padrão: LB = frente + traseira; LL = frente + lateral; T = frente, trás + lateral; TB = frente, trás + traseira.
+    - Ponta que desce no painel → LB; curva → LL; derivação → T; descida no meio do trecho → TB; trecho reto → nada.
+    - "Saída indo pro nada" foi apontado como erro.
+    - Eletrodutos paralelos (caminhos A/B) desenhados como **translação rígida** do eixo, para nenhuma junção ficar solta.
+  - **Rótulos:** posicionar com mapa de ocupação (textos da base + símbolos + eletrodutos). Rótulo maior que o trecho não cabe: tirar a altura dos trechos curtos.
+- **2026-10-06** — **Área classificada (Ex): não decidir por premissa.**
+  - **O que aconteceu:** desenhei condulete Ex e unidade seladora porque supus que o salão era classificado. O responsável vetou: primeiro estudar qual a melhor solução para rede e rede estabilizada.
+  - **O que define:**
+    - a **norma de instalação**: NBR IEC 60079-14 (classificação: 60079-10-1/-2) ou, na linha americana, NEC 500/501/505 e ISA RP12.6;
+    - o **estudo de classificação de áreas** do cliente.
+  - **O que não define:** normas de **simbologia** (ISA 5.x, NBR 8190) e apostilas de instrumentação, que só dão o conceito (Classe/Divisão, NEMA 7/9).
+  - **Alternativas a comparar:** desviar o traçado da área; cabo apropriado com prensa-cabo Ex; eletroduto com unidade seladora; fibra óptica nos trechos classificados.
+  - **Até decidir:** tirar o Ex do desenho, deixar nota "em estudo" e pôr na lista de materiais só um item omisso sem quantidade.
+- **2026-10-06** — **Gotchas de CAD por automação (custaram horas).**
+  - **(a) BLOCK_RECORD sem nome:** um DXF gravado a partir de um DWG de exemplo que tinha um desses é **descartado inteiro pelo AutoCAD** ("Invalid or incomplete DXF input"). Remover o registro e o par BLOCK/ENDBLK correspondente antes de abrir.
+  - **(b) Erro genérico do COM:** quando `Documents.Open` devolve "Error Decrypting Data", o erro real aparece no **histórico da janela de texto do AutoCAD** (ler o controle com `WM_GETTEXT`).
+    - Um `SendCommand` de OPEN que não terminou deixa o AutoCAD parado num prompt e **recusando todo o COM**. Responder ao prompt digitando na janela da vista resolve.
+  - **(c) Viewport copiada do template** leva junto o `view_target_point` do desenho antigo e mostra a janela vazia. Zerar target, direção e giro ao reposicionar.
+  - **(d) Fluxo que funcionou para entregar:** gerar o DXF → abrir no AutoCAD → `PurgeAll` ×3 → plotar cada layout com `PlotToFile` (`BACKGROUNDPLOT=0`) → juntar os PDFs → `SaveAs` DWG.
+- **2026-10-06** — **Lista de materiais no modelo da casa = planilha orçamentária.**
+  - **Abas:** CAPA (logo do cliente em cima, TSE embaixo, revisões, códigos de emissão), FL 2 (notas gerais) e LISTA DE MATERIAIS.
+  - **Colunas:** Item, Descrição, Dimensões, Unidade, Qtd líquida, **Qtd = ARRED.PARA.CIMA(Qtd × 1,15)** (×1,3 em cabos), Referência, preço unitário e total de material e de mão de obra, Preço total.
+  - **Seções fixas 2 a 6:** serviços finais, supervisão/start-up, itens omissos, fornecimento do cliente, geral.
+  - **Gotchas:**
+    - Itens unitários (caixa, patch panel, disjuntor) ficam sem margem (fator 1,0), senão viram 2 peças.
+    - O número da folha vem do **cabeçalho de página (&P/&N)**: não escrever número de folha em célula (duplica).
+    - Item "1.10" vira número no Excel: formatar a coluna como texto antes de escrever.
+  - **Quantidades** saem da **mesma geometria do desenho**, pelo mesmo código: eletroduto por Ø em barras de 3 m, mais 1 m vertical por LB/TB; conduletes por tipo e Ø; buchas por entrada; braçadeiras = barras × 3. Assim lista e planta batem.
+  - **Gerar pelo Excel COM sobre cópia do próprio modelo:**
+    - o **Excel não abre caminho com mais de 218 caracteres**: usar nome curto na cópia de trabalho;
+    - "chamada rejeitada pelo chamado" → proxy COM com retry;
+    - Excel invisível que sobra de uma execução que caiu segura o arquivo: encerrar só os sem janela iniciados pela automação.
+- **2026-10-06** — **Entrega: GRD + pasta `10 - Entregas` + e-mail curto.**
+  - **Pasta da emissão:** `10 - Entregas\AAAA.MM.DD - GRD nnn - <emissão>`, com a GRD (xlsx + pdf) e cada documento em PDF + editável (DWG/XLSX).
+  - **GRD no modelo da casa:** relação item / nome / título / rev / qtd / tipo / finalidade, A/C cliente, C/C equipe, observações curtas.
+  - **Logo do cliente:** no modelo, é uma **imagem dentro da célula A1** (a célula aparece como "#VALUE!" para o openpyxl). Trocar por imagem flutuante sobre a área mesclada. Tirar o logo dos desenhos TSE anteriores do mesmo cliente (imagem embutida nos PDFs).
+  - **E-mail de entrega (preferência do responsável):** sem títulos de seção, direto.
+    - Quando o objetivo é só estimativa (**budget**), **não listar pendências nem pedir dados ao cliente**.
+    - O pedido de orçamento vai ao **supervisor**, para encaminhar ao setor de orçamentos, citando que foi pedido do cliente na reunião.
