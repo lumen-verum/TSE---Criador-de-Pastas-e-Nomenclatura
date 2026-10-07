@@ -5,6 +5,7 @@
 ## 0. Princípios
 - Frente de trabalho do Samuel = **INSTALAÇÕES**: projeto + as-built de **Instrumentação, Força e Aterramento**. Painéis/remotas (diagrama funcional, layout, folha de dados) são de **outro setor**.
 - **Entender antes de executar**: ler escopo passo a passo; uma pergunta por vez.
+- **E-mails que redigimos:** abrir só com "Saudações" (nunca bom dia, boa tarde ou boa noite), **sem travessão** (— ou –) em nenhum lugar, direto e curto ("ninguém lê nada hoje"), sem títulos de seção. O responsável é quem envia. Detalhes no log de 2026-10-07.
 - Planilhas são lidas/editadas via **Excel COM no PowerShell**. Sempre `Test-Path` antes de criar/escrever.
 - **Telecom e rede estabilizada são SEMPRE projetos separados.**
   - **Telecom:** rede de comunicação, cabeamento estruturado, fibra, rack de rede, switches, DIO.
@@ -303,3 +304,11 @@ Método validado: **partir de um projeto-exemplo aprovado** (ex.: estrutura do C
   - **Colunas ocultas na impressão do modelo:** E (TAG), M (DISJUNTOR), N–P (DR) e AK (descrição). Manter o padrão; o disjuntor aparece no unifilar da prancha e no resultado da Premissas.
   - **A recomendação do fabricante para a proteção de entrada (ex.: UPS) manda no disjuntor, e o disjuntor manda no cabo (In ≤ Iz).** Isso pode subir a seção e, com ela, o eletroduto: recalcular a ocupação (≤ 40% com 3 ou mais cabos).
   - Dado de fabricante achado só por busca (PDF oficial inacessível): usar e marcar "confirmar no manual".
+- **2026-10-07** — **Regras fixas de e-mail (valem para todos os projetos).**
+  - **Abertura só "Saudações"**, com ou sem o nome. O envio costuma ser à noite: um e-mail mandado às 23h dizendo "boa tarde" foi o gatilho da regra.
+  - **Nenhum travessão** (— ou –): nem no assunto, nem no corpo. Antes de salvar a minuta, contar as ocorrências; tem que dar zero. Hífen de código de documento pode.
+  - **Curto:** uma frase de contexto, uma lista numerada do que mudou e uma linha por pessoa que precisa agir. Em entrega com prazo, dizer que saiu "ainda hoje".
+  - **Resposta a e-mail recebido:** a minuta indica "Responder a todos" no original (data e hora) e repete a cópia dele. A minuta de e-mail novo que ela substitui vai para `E-mails\Superados`.
+- **2026-10-07** — **Conferir a pasta de entrega antes de dizer "está atualizado".**
+  - Comparar byte a byte cada arquivo da pasta da GRD com o arquivo de mesmo nome nas pastas 4 e 6, fora de `Superados`.
+  - Procurar dentro de cada PDF o texto da mudança da revisão (ex.: a seção nova do cabo, o código do documento novo). Data de arquivo não prova conteúdo.
