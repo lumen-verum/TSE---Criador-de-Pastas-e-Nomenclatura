@@ -11,6 +11,7 @@ Ferramentas genéricas de automação de projeto (CAD + gestão), validadas em p
 | `novo_report_semanal.py` | Python 3 + `pip install pywin32` + Excel instalado (usa COM) |
 | `cronograma_msproject.py` | Python 3 (gera XML puro; abrir no MS Project) |
 | `pid_extrai_tags.py` | Python 3 + `pip install pymupdf` |
+| `eplan_extrai_io.py` | Python 3 + `pip install pymupdf` |
 
 ---
 
@@ -92,3 +93,20 @@ Dois pontos que custam caro se ignorados:
 A ordem dos grupos muda a cada execução (depende da frequência), então **regenere `rotulos.json` com `--amostras` sempre que mudar de desenho ou de parâmetros**.
 
 Lembre que **nem todo balão é instrumento de campo** (ISA 5.1 / NBR 8190): `PSV` é válvula de segurança — elemento final, não instrumento; `ZSO`/`ES`/`LSH` são chaves de outros sistemas. Filtre por tipo antes de fechar quantitativo de I/O. Material de referência em `Área de Trabalho\Claude\Instrumentação`.
+
+## eplan_extrai_io.py — configuração de I/O de um painel, a partir do desenho de fabricação
+
+Levanta rack, slot, código do cartão, designação do módulo e régua de bornes de campo direto do **PDF de fabricação do EPLAN**. É a base para montar o endereçamento físico de uma lista de I/O.
+
+```bat
+python eplan_extrai_io.py painel.pdf --resumo --bornes
+python eplan_extrai_io.py *.pdf --saida config_io.csv
+```
+
+**Por que não usar a lista de materiais.** Quando o painel já foi comprado e fabricado, o quantitativo tem de sair do desenho. A lista de materiais / exportação do configurador costuma refletir uma **alocação anterior**. Caso real que motivou a ferramenta: a lista dizia 64 cartões analógicos, o desenho mostrava **66**, com distribuição diferente entre os painéis — e a conclusão tirada da lista (faltar cartão numa remota) estava **invertida**: aquela era justamente a remota de maior folga. Isso foi parar num e-mail ao cliente.
+
+**Conferência dupla, obrigatória.** A opção `--bornes` procura, na *lista de peças totalizada* do próprio painel, a quantidade de bornes de campo. Num cartão analógico com RTD a 3/4 fios é **um borne de 4 pontos de conexão por canal**, então o número tem que fechar com `nº de cartões × canais`. Validado em quatro painéis reais: 144, 168, 152 e 64 bornes contra 18, 21, 19 e 8 cartões de 8 canais. **Se os dois métodos não fecharem, não emita.**
+
+**Gotcha.** A designação da régua pode passar de dois dígitos (`-100X01.11`). A ferramenta usa `-\d{2,3}X`; com `-\d\dX` metade dos slots some sem avisar.
+
+Depois do levantamento, o endereçamento se monta cruzando isto com a tabela *Wiring Connections* do **manual do cartão** (terminal × canal). Lembre que **qual ponto vai em qual canal é decisão de projeto**, não dado a resgatar: painel entregue com a descrição dos canais em branco significa que ninguém definiu ainda — emita como "alocação proposta, a validar".
