@@ -291,3 +291,15 @@ Método validado: **partir de um projeto-exemplo aprovado** (ex.: estrutura do C
   - **Dado novo do equipamento ≠ mexer em painel:** com potência e tensão informadas, redimensionar só o **cabo e o eletroduto**. O disjuntor sai da lista e vira nota ("proteção do projeto do painel de origem").
   - **Excel COM:** célula **mesclada com quebra de texto não faz AutoFit** de altura. Texto mais longo some cortado no PDF. Aumentar a altura da última linha da mescla e conferir o PDF renderizado.
   - **Caminho Windows em string Python dentro de heredoc:** `\2026` vira escape octal e corrompe o texto sem dar erro. Usar `chr(92)`, raw string ou script em arquivo, e conferir o resultado gravado.
+- **2026-10-07** — **Projeto de força sempre tem QUADRO DE CARGAS (documento QC próprio), mesmo com 2 ou 3 circuitos.** Uma tabela de circuitos simplificada na prancha não substitui o QC: o responsável cobrou "quadro de cargas mesmo".
+  - **Como fazer:** método CA6099 da seção 11 (copiar o xlsx exemplo e reescrever a aba CCM), mais a aba Premissas no formato do QC anterior da casa.
+  - **Fonte única:** um script calcula os circuitos uma vez e alimenta a planilha, a prancha (unifilar + quadro-resumo) e a lista de materiais. Conferir que o Excel calcula igual ao script (Ib, Iz, ΔV).
+  - **Simplificações do modelo** que precisam de correção quando há circuito monofásico:
+    - (a) Balanceamento: AD/AE/AF têm a mesma fórmula.
+    - (b) Capacidade de corrente: sempre a coluna de 2 condutores carregados.
+    - (c) Queda de tensão: tensão fixa 220/380 V e só a coluna trifásica de V/A.km (a Base de Dados tem a coluna "Monofásico").
+    - (d) A checagem da coluna A não verifica In ≤ Iz.
+    - Corrigir nas linhas e registrar na aba Premissas.
+  - **Colunas ocultas na impressão do modelo:** E (TAG), M (DISJUNTOR), N–P (DR) e AK (descrição). Manter o padrão; o disjuntor aparece no unifilar da prancha e no resultado da Premissas.
+  - **A recomendação do fabricante para a proteção de entrada (ex.: UPS) manda no disjuntor, e o disjuntor manda no cabo (In ≤ Iz).** Isso pode subir a seção e, com ela, o eletroduto: recalcular a ocupação (≤ 40% com 3 ou mais cabos).
+  - Dado de fabricante achado só por busca (PDF oficial inacessível): usar e marcar "confirmar no manual".
