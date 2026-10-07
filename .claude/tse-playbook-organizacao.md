@@ -277,3 +277,17 @@ Método validado: **partir de um projeto-exemplo aprovado** (ex.: estrutura do C
   - **E-mail de entrega (preferência do responsável):** sem títulos de seção, direto.
     - Quando o objetivo é só estimativa (**budget**), **não listar pendências nem pedir dados ao cliente**.
     - O pedido de orçamento vai ao **supervisor**, para encaminhar ao setor de orçamentos, citando que foi pedido do cliente na reunião.
+- **2026-10-07** — **Revisão de documento já emitido (R00 → R01).**
+  - **Nova GRD numerada** (nnn+1) e pasta própria em `10 - Entregas` (`AAAA.MM.DD - GRD nnn - Revisão Rxx`). A pasta da GRD anterior não é mexida, porque é o registro do que saiu.
+  - **Revisão anterior vai para `Superados\`** dentro das pastas 4 e 6. Nunca apagar: só mover. A pasta de trabalho fica só com a revisão vigente.
+  - **Carimbo do desenho:**
+    - nova linha de revisão **acima** da anterior, nas mesmas colunas (data, rev, elaboração, verificação, descrição);
+    - os campos REVISÃO e DATA passam a mostrar a revisão atual;
+    - a data da R00 continua na linha dela.
+  - **Planilha:**
+    - capa com nova linha no controle de revisões e REV no cabeçalho;
+    - a nota que dizia "em estudo" é **substituída pela decisão tomada**, não acumulada.
+  - **Escopo da revisão = só o que mudou por decisão ou dado novo** (pedido feito em reunião, dado do equipamento enviado pelo cliente). Comentários esperados para depois (ex.: avaliação de um técnico do cliente no dia seguinte) ficam para a revisão seguinte. A R01 sai rápido quando o cliente vai usar o pacote para cotar com terceiros.
+  - **Dado novo do equipamento ≠ mexer em painel:** com potência e tensão informadas, redimensionar só o **cabo e o eletroduto**. O disjuntor sai da lista e vira nota ("proteção do projeto do painel de origem").
+  - **Excel COM:** célula **mesclada com quebra de texto não faz AutoFit** de altura. Texto mais longo some cortado no PDF. Aumentar a altura da última linha da mescla e conferir o PDF renderizado.
+  - **Caminho Windows em string Python dentro de heredoc:** `\2026` vira escape octal e corrompe o texto sem dar erro. Usar `chr(92)`, raw string ou script em arquivo, e conferir o resultado gravado.
