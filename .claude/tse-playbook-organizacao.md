@@ -323,3 +323,8 @@ Método validado: **partir de um projeto-exemplo aprovado** (ex.: estrutura do C
   - **SOBE/DESCE:** seta TBU_SOBE / TBU_DESC com o círculo no ponto + caixa de texto na camada 0 com o destino ("SOBE P/ EL +x", "DESCE P/ EL +y"). Nunca caixa genérica. Bloco que faltar no DWG: copiar dos exemplos TSE. Escolher a direção da seta que não encobre símbolo nem texto.
   - **accoreconsole:** começar o script com `(setvar "TILEMODE" 1)`. Um DWG que abre num layout manda o `entmake` para o espaço de papel, e o COPY/MOVE falham com "not in current space".
   - **AutoLISP:** `\U+00E7` numa string não casa com o texto gravado (o caractere é real). Para achar/trocar texto, usar âncoras só ASCII; MTEXT longo vem em vários grupos 3 + o 1.
+- **2026-10-13** — **Planta de pontos / força: caixa condulete e bitola são obrigatórias (modelos de instrumentação TSE).**
+  - **Condulete em todo nó do eletroduto**, com o tipo escrito ao lado: curva LL/LR, derivação T, cruz X, passagem com saída de fundo TB e chegada ao ponto (desce) LB. Na saída do leito não vai condulete.
+  - **Bitola em cada linha reta**, uma vez por trecho contínuo (`%%C2"`, `%%C1"`), seguindo o padrão da obra ou o relato do eletricista. Não deixar só a nota "Ø1" se não indicado".
+  - Montar a rede de eletrodutos (nós em vértices e cruzamentos) e decidir o condulete pelo número e pela direção dos ramos. Fundir trechos sobrepostos numa linha só.
+  - Antes de desenhar um tipo de entregável, renderizar trechos dos modelos TSE e comparar com o que vai ser gerado.
