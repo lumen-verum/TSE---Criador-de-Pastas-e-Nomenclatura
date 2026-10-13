@@ -316,3 +316,10 @@ Método validado: **partir de um projeto-exemplo aprovado** (ex.: estrutura do C
 - **2026-10-07** — **Conferir a pasta de entrega antes de dizer "está atualizado".**
   - Comparar byte a byte cada arquivo da pasta da GRD com o arquivo de mesmo nome nas pastas 4 e 6, fora de `Superados`.
   - Procurar dentro de cada PDF o texto da mudança da revisão (ex.: a seção nova do cabo, o código do documento novo). Data de arquivo não prova conteúdo.
+- **2026-10-13** — **As-built de infraestrutura a partir do DXF de orientação validado pelo engenheiro.**
+  - **Posição validada não se mexe.** Nunca aplicar "correção por padrão" (ex.: deslocar a prumada igual em todos os níveis porque ele corrigiu alguns). Só muda o que ele mexeu.
+  - **O relato do eletricista de campo manda na rota.** Ex.: "leito só na subida da prumada; horizontal só no térreo e no nível do painel". Ler a transcrição antes de propor traçado e não inventar leito horizontal.
+  - **Leito instalado de lado:** manter a representação padrão (deitado) e escrever no rótulo e na nota "instalado na vertical".
+  - **SOBE/DESCE:** seta TBU_SOBE / TBU_DESC com o círculo no ponto + caixa de texto na camada 0 com o destino ("SOBE P/ EL +x", "DESCE P/ EL +y"). Nunca caixa genérica. Bloco que faltar no DWG: copiar dos exemplos TSE. Escolher a direção da seta que não encobre símbolo nem texto.
+  - **accoreconsole:** começar o script com `(setvar "TILEMODE" 1)`. Um DWG que abre num layout manda o `entmake` para o espaço de papel, e o COPY/MOVE falham com "not in current space".
+  - **AutoLISP:** `\U+00E7` numa string não casa com o texto gravado (o caractere é real). Para achar/trocar texto, usar âncoras só ASCII; MTEXT longo vem em vários grupos 3 + o 1.
