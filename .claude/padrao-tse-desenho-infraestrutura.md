@@ -286,3 +286,46 @@ Contagem por tipo de nó. "Com" quer dizer condulete a até 0,15 m do nó.
    - textos sem sobreposição;
    - ponto parado.
 5. Conferência no PDF plotado e no DWG; entrega ao lado do DWG; organização por revisão.
+
+## 15. Traçado em feixe: quando o campo tem um eletroduto por terminal
+
+Vale quando o levantamento mostra tubos individuais saindo da prumada: um por chave local na força, um por equipamento na instrumentação. Nesse caso o tronco comum dos modelos vira um **feixe de tubos paralelos**.
+
+- **Árvore de caminhos:**
+  - ponto mais perto primeiro;
+  - L que menos cruza;
+  - a rota que o engenheiro desenhou é tronco obrigatório.
+  - Como cada terminal tem o seu tubo, **desvio custa tubo de verdade**. Penalizar o caminho que se afasta do direto (fator ~0,7), senão o ponto ao sul sai para o norte e dá a volta.
+- **Ordem das faixas** (garante zero cruzamento):
+  - em cada trecho reto, quem sai primeiro para um lado fica por fora daquele lado;
+  - quem segue até o fim fica no meio;
+  - ao virar, a ordem esquerda→direita se mantém.
+- **Espaçamento:** 0,07 m (o LEM usa 0,02–0,12 m).
+  - Os LB de saída da prumada ficam desencontrados ao longo do tubo, porque lado a lado se encostam.
+- **Feixe largo em trecho curto dobra sobre si mesmo.**
+  - Escolher, em cada trecho, para que lado da linha o feixe se abre. Testar o centro, os dois lados e os quartos, e ficar com o que não dobra, não cruza e não encobre símbolo.
+  - Conferir no fim: **cruzamentos entre tubos = 0** e nenhum trecho que volta.
+- **O tronco precisa de folga dos símbolos** (o feixe tem largura) e não deriva colado na chegada de outro terminal.
+- **Ao derivar de um nó já existente** (encaixe até 0,12 m), refazer o L a partir do nó. Senão sai um trecho diagonal.
+- **Chegada:**
+  - avaliar os 4 lados do símbolo;
+  - penalizar o trecho final que passa por outro símbolo, inclusive do mesmo grupo.
+- **No equipamento:** um tubo com T em cada derivação e LB em cada sensor. Condulete só aí, na saída e na chegada; curva de feixe sem caixa.
+- **Força: da chave ao motor, sealtubo** (arco curto no mesmo layer do eletroduto).
+- **Fiação com feixe:**
+  - uma letra em círculo por tubo;
+  - um quadro "LEGENDA DE CABOS" por nível: na força, carga/chave/formação; na instrumentação, equipamento e, por tipo, símbolo e quantidade;
+  - rodapé explicando a letra.
+  - Se o desenho já tem uma "legenda de cabos" geral com outro significado, renomeá-la para não haver dois quadros com o mesmo nome.
+- **Bitola no feixe:** "Nx Ø2"" uma vez por trecho; o tubo sozinho só no seu maior trecho.
+- **Quadro em espaço livre e visível:**
+  - o DXF de orientação não tem a planta completa do prédio (fica em blocos/XREF);
+  - usar o PDF plotado da revisão anterior como mapa de ocupação, calibrado pelo viewport:
+    - 1:50 = 56,693 pt por metro;
+    - centro da vista = grupo 12 + alvo 17;
+    - a página do PDF pode estar rotacionada;
+  - restringir à área visível do viewport (o quadro pode cair fora da folha).
+- **Largura de texto da fonte TSE ≈ 0,82 × altura por caractere** (medida no PDF). Com 0,62 os quadros e o organizador de textos deixam sobreposição.
+- **O que é traçado do engenheiro no DXF de orientação:** o que já existia antes da proposta, mais o que não está no `.bak` deixado pelo AutoCAD quando ele salvou. O resto é proposta automática, mesmo que ele tenha só arrastado uma ponta ao mover a prumada.
+- **Comprimento de cabo pelo traçado:** só recalcular quando a posição de cada painel de destino estiver confirmada. Se a lista e o desenho divergem sobre qual painel atende cada nível, manter a lista e perguntar.
+

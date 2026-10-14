@@ -337,3 +337,9 @@ Método validado: **partir de um projeto-exemplo aprovado** (ex.: estrutura do C
   - **O ponto fica onde ele é; quem se adequa é o texto.** Grupo denso = círculo numerado + quadro-lista.
   - **Antes de gerar:** contar por tipo de nó nos modelos, montar um documento do padrão com recortes e pedir validação.
   - **No accoreconsole:** não usar o comando MOVE para mover ponto (ORTHO/AUTOSNAP do desenho desviam o destino). Editar a coordenada (entmod) e mover os atributos junto.
+- **2026-10-14** — **As-built de força e instrumentação seguindo a execução de campo (feixe: um tubo por terminal).**
+  - **Quando o engenheiro pede para "seguir o que foi executado", a referência é o vídeo e as fotos do levantamento**, nível a nível. O modelo de desenho só dá a linguagem gráfica. Detalhes em `padrao-tse-desenho-infraestrutura.md` §15.
+  - **Leito "horizontal":** falar e escrever "trecho de leito em planta, instalado na vertical". O engenheiro corrige quando ouve "leito horizontal".
+  - **Dado que não fecha** não se resolve no desenho; vai para a lista de pendências da entrega. Exemplos: chave desenhada junto ao motor errado, motor num nível diferente do que diz a lista, painel com dois nomes.
+  - **Conferir sempre no PDF plotado:** ali apareceram o quadro fora da área visível da folha e o texto mais largo do que o estimado, que a prévia do script não mostrava.
+
