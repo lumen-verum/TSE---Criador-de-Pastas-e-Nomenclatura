@@ -350,7 +350,14 @@ Vale quando o levantamento mostra tubos individuais saindo da prumada: um por ch
 - **Fiação com feixe:**
   - uma letra em círculo por tubo;
   - um quadro "LEGENDA DE CABOS" por nível: na força, carga/chave/formação; na instrumentação, equipamento e, por tipo, símbolo e quantidade;
-  - rodapé explicando a letra.
+  - rodapé explicando a letra, quebrado na largura do quadro.
+  - **Quadro em grade** [engenheiro: "não estão equidistantes internamente e há linhas em cima de símbolos"]:
+    - uma coluna fixa por tipo de cabo, com o mesmo passo (0,62 m);
+    - símbolo e "Nx" sempre à mesma distância;
+    - linhas a 0,36 m;
+    - margem igual nos dois lados (0,12 m);
+    - moldura do tamanho do conteúdo, sem esticar pelo rodapé;
+    - o símbolo do cabo (0,19–0,23 m de altura, desenhado a partir da base) é centrado na linha pela caixa do bloco, senão o da 1ª linha passa por cima da linha do cabeçalho.
   - Se o desenho já tem uma "legenda de cabos" geral com outro significado, renomeá-la para não haver dois quadros com o mesmo nome.
 - **Bitola no feixe:** "Nx Ø2"" uma vez por trecho; o tubo sozinho só no seu maior trecho.
 - **Quadro em espaço livre e visível:**
