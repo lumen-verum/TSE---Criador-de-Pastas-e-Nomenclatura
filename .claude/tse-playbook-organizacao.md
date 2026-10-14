@@ -323,8 +323,15 @@ Método validado: **partir de um projeto-exemplo aprovado** (ex.: estrutura do C
   - **SOBE/DESCE:** seta TBU_SOBE / TBU_DESC com o círculo no ponto + caixa de texto na camada 0 com o destino ("SOBE P/ EL +x", "DESCE P/ EL +y"). Nunca caixa genérica. Bloco que faltar no DWG: copiar dos exemplos TSE. Escolher a direção da seta que não encobre símbolo nem texto.
   - **accoreconsole:** começar o script com `(setvar "TILEMODE" 1)`. Um DWG que abre num layout manda o `entmake` para o espaço de papel, e o COPY/MOVE falham com "not in current space".
   - **AutoLISP:** `\U+00E7` numa string não casa com o texto gravado (o caractere é real). Para achar/trocar texto, usar âncoras só ASCII; MTEXT longo vem em vários grupos 3 + o 1.
-- **2026-10-13** — **Planta de pontos / força: caixa condulete e bitola são obrigatórias (modelos de instrumentação TSE).**
-  - **Condulete em todo nó do eletroduto**, com o tipo escrito ao lado: curva LL/LR, derivação T, cruz X, passagem com saída de fundo TB e chegada ao ponto (desce) LB. Na saída do leito não vai condulete.
-  - **Bitola em cada linha reta**, uma vez por trecho contínuo (`%%C2"`, `%%C1"`), seguindo o padrão da obra ou o relato do eletricista. Não deixar só a nota "Ø1" se não indicado".
-  - Montar a rede de eletrodutos (nós em vértices e cruzamentos) e decidir o condulete pelo número e pela direção dos ramos. Fundir trechos sobrepostos numa linha só.
-  - Antes de desenhar um tipo de entregável, renderizar trechos dos modelos TSE e comparar com o que vai ser gerado.
+- **2026-10-14** — **Planta de pontos / força: estudar o padrão nos modelos ANTES de desenhar (corrige a lição de 13/10).**
+  - "Condulete em todo nó" estava errado; o engenheiro disse que as caixas ficaram excessivas. Pela contagem nos modelos de instrumentação:
+    - **com caixa:** derivação (T/TB), descida ou chegada ao ponto (LB encostado) e curva real junto a ponto ou derivação (LL/LR);
+    - **sem caixa:** cruzamento, saída da eletrocalha, reta de qualquer comprimento e curva de tronco.
+  - **O que mais reduz caixa é o traçado:** tronco único reto e paralelo ao equipamento, T alinhado a cada ponto, ramal reto e perpendicular, zero cruzamento. É a ordem econômica (mínimo de duto, melhor percurso) e segue a rota levantada em campo. Um duto para cada coluna, saindo da prumada, cria paralelos e cruzamentos que não existem.
+  - **Bitola:** uma vez por trecho contínuo, e só quando difere da nota (o Rio Grande escreve em todo trecho; confirmar com o engenheiro).
+  - **Fiação:**
+    - instrumentação: chamada diagonal + prateleira, com símbolo do tipo, NxCabos e classificação, um rótulo por percurso;
+    - força: letra por conjunto de cabos + LEGENDA DE CABOS por letra + taxa de ocupação nos leitos.
+  - **O ponto fica onde ele é; quem se adequa é o texto.** Grupo denso = círculo numerado + quadro-lista.
+  - **Antes de gerar:** contar por tipo de nó nos modelos, montar um documento do padrão com recortes e pedir validação.
+  - **No accoreconsole:** não usar o comando MOVE para mover ponto (ORTHO/AUTOSNAP do desenho desviam o destino). Editar a coordenada (entmod) e mover os atributos junto.
