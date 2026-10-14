@@ -342,4 +342,18 @@ Método validado: **partir de um projeto-exemplo aprovado** (ex.: estrutura do C
   - **Leito "horizontal":** falar e escrever "trecho de leito em planta, instalado na vertical". O engenheiro corrige quando ouve "leito horizontal".
   - **Dado que não fecha** não se resolve no desenho; vai para a lista de pendências da entrega. Exemplos: chave desenhada junto ao motor errado, motor num nível diferente do que diz a lista, painel com dois nomes.
   - **Conferir sempre no PDF plotado:** ali apareceram o quadro fora da área visível da folha e o texto mais largo do que o estimado, que a prévia do script não mostrava.
+- **2026-10-14** — **Revisão já aberta pelo engenheiro e área sem base.**
+  - **Se o engenheiro editou o DWG da revisão em andamento, a próxima mudança é incremental:**
+    - descobrir o que ele mudou comparando o `.dwg` com o `.bak` (a última versão gerada) por handle;
+    - apagar por handle só o que foi gerado na área pedida;
+    - redesenhar só ali.
+    - Remontar a partir da revisão anterior apaga o trabalho dele.
+    - Retângulo que ele desenha em camada 0 é marcação "refazer aqui" e sai junto.
+    - Camada travada faz o `entdel` falhar sem erro: destravar, apagar, retravar e conferir com novo levantamento de entidades.
+  - **Infraestrutura sempre fixada na estrutura.** Traçado em planta que atravessa vão sem viga, coluna ou plataforma "fica voando" e não existe. Conferir contra a geometria real da planta (bloco do nível explodido só na memória), não contra a área livre do desenho.
+  - **Parte do escopo sem planta baixa do cliente:**
+    - não se desenha nem se entrega;
+    - tira-se a folha e as referências das outras folhas;
+    - registra-se em nota que as plantas não foram enviadas apesar de solicitadas;
+    - renumera-se as folhas.
 
