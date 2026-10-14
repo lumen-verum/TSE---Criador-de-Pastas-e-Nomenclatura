@@ -364,3 +364,8 @@ Método validado: **partir de um projeto-exemplo aprovado** (ex.: estrutura do C
     - Antes de repassar, conferir contra o desenho atual: um achado já tinha sido resolvido pela compatibilização.
     - Mudar ponto de lugar é decisão do engenheiro: só se lista, não se move.
   - **Posição de símbolo vem do bloco, por handle**, nunca do texto: texto já movido pelo organizador fez 12 motores ficarem fora do símbolo.
+- **2026-10-14** — **Eletroduto em esquadro e condulete em toda curva.**
+  - O engenheiro reprovou "linhas de eletrodutos tortas e curvas sem conduletes". Nos modelos LEM há curva de feixe sem caixa, mas na entrega dele **toda curva de 90° leva LL/LR** e nenhum trecho fica fora do esquadro.
+  - O feixe passou de 0,07 para 0,12 m para caber uma caixa por curva.
+  - Auditoria obrigatória antes de aplicar e depois, no DWG: trechos tortos, curvas sem condulete, pernas curtas e conduletes encavalados. Método em `padrao-tse-desenho-infraestrutura.md` §6 e §15.
+  - **Prancha cancelada pelo engenheiro** (ex.: detalhes típicos): sai o layout e o desenho dela no modelo, renumeram-se as folhas e o PDF antigo vai para Superados.

@@ -120,13 +120,12 @@ Contagem por tipo de nó. "Com" quer dizer condulete a até 0,15 m do nó.
 - **Com caixa:**
   - derivação (**T**; **TB** quando a saída vai para baixo; **X** só se 4 dutos se ligam no ponto);
   - descida ou chegada ao ponto (**LB** encostado no símbolo);
-  - **curva real de 90° junto a ponto ou derivação** (**LL / LR**).
+  - **toda curva de 90° em planta** (**LL / LR**), inclusive no tronco e no feixe [engenheiro, 14/10: "curvas sem conduletes" é defeito]. Os modelos têm curva sem caixa, mas no as-built ela não vale.
 - **Sem caixa:**
   - cruzamento;
   - saída do leito ou da prumada (bloco "saída para eletroduto");
   - reta de qualquer comprimento;
-  - desvio suave;
-  - curva de tronco ou de feixe (canto vivo ou arco r = 0,10 m).
+  - desvio suave.
 - **Opção da correia** (confirmar com o engenheiro): TB de passagem a cada 6 m e kit de descida completo por par de instrumentos.
 - **Bloco:** a geometria real do condulete define as saídas. O giro tem que bater com os dutos que chegam, e nenhuma saída pode ficar "indo pro nada" [Samuel].
   - LB = +x e traseira;
@@ -275,6 +274,9 @@ Contagem por tipo de nó. "Com" quer dizer condulete a até 0,15 m do nó.
   - Conferir que toda ponta de eletroduto e de sealtubo cai na borda do símbolo (raio ± 0,03 m).
 - **Texto girado −90° ocupa a área abaixo do ponto de inserção.** Tratar só +90° faz o obstáculo cair do lado errado, e o organizador põe outro texto em cima.
 - **Script que apaga por handle a partir de um dump só vale para aquele estado do DWG.** Depois de aplicar, refazer o dump antes de gerar de novo, senão o que acabou de ser criado fica duplicado.
+- **Espaço de papel:** `entnext` só percorre o modelo e o layout ativo. Para os outros layouts, usar `(ssget "_X" '((410 . "~Model")))`.
+  - Texto do carimbo que é igual em todas as folhas (total "/03") fica dentro do bloco do carimbo: muda por `handent`/`entmod` uma vez só.
+- **Tirar uma prancha:** apagar o layout, o desenho dela no modelo (filtro pelo ponto de referência numa janela; no HATCH, o 2º grupo 10), renomear as outras e trocar o total no carimbo. O PDF antigo vai para Superados.
 - **`(load "arquivo.lsp")` no accoreconsole é cancelado** ("File load canceled") para pasta fora dos caminhos confiáveis. Linha de script acima de ~2000 caracteres trava o console: quebrar a linha ou omitir a definição de bloco que o DWG já tem.
 
 ## 14. Fluxo de as-built que funcionou
@@ -306,8 +308,20 @@ Vale quando o levantamento mostra tubos individuais saindo da prumada: um por ch
   - em cada trecho reto, quem sai primeiro para um lado fica por fora daquele lado;
   - quem segue até o fim fica no meio;
   - ao virar, a ordem esquerda→direita se mantém.
-- **Espaçamento:** 0,07 m (o LEM usa 0,02–0,12 m).
-  - Os LB de saída da prumada ficam desencontrados ao longo do tubo, porque lado a lado se encostam.
+- **Espaçamento:** 0,12 m (o LEM usa 0,02–0,12 m). Com condulete em toda curva, 0,07 m encavala as caixas (LL/LR têm 0,18 × 0,10 m).
+  - Com 0,07 m, os LB de saída da prumada tinham de ficar desencontrados ao longo do tubo; com 0,12 m, cabem lado a lado.
+- **Condulete da curva:** a boca lateral fica no vértice. O corpo vai ao longo da perna que tem mais espaço livre, descontando o LB da ponta.
+  - Se a caixa encosta em outra, vira para a outra perna.
+  - Curva colada na saída do leito (perna < 0,3 m) faz a própria saída: sem LB extra.
+  - Ponto de inserção do bloco ≠ vértice: LL tem a boca da ponta em y = +0,0145 e a lateral em x = −0,044 (LR: y = −0,0135); T, bocas em y = +0,0145.
+- **Linha torta não existe** [engenheiro: "linhas de eletrodutos tortas"]. Desvio de 1 a 7 cm nasce de:
+  - nó encaixado num vizinho a até 0,12 m;
+  - ponta alinhada a um símbolo que estava 1 cm fora;
+  - faixa do feixe que muda de posição quando outro tubo sai.
+  - Correção: depois de montar a árvore, deixar cada aresta exatamente horizontal ou vertical. Nós ligados por aresta horizontal dividem o y e por vertical o x (união de conjuntos), com âncora na ponta do símbolo, depois na prumada/espinha e por último no leito (só a coordenada transversal).
+  - Degrau de menos de 0,10 m no feixe, ou "dente" de menos de 0,13 m na árvore do equipamento: some (vira um nó só).
+  - Chegada curta (< 0,2 m) no T de entrada do equipamento: o trecho de antes se alinha e o tubo entra reto.
+  - Conferir no fim, no script e no DWG: trechos tortos = 0, curvas sem condulete = 0, conduletes encavalados = 0. O arco do sealtubo aparece como "torto" no dump, que só lê as pontas.
 - **Feixe largo em trecho curto dobra sobre si mesmo.**
   - Escolher, em cada trecho, para que lado da linha o feixe se abre. Testar o centro, os dois lados e os quartos, e ficar com o que não dobra, não cruza e não encobre símbolo.
   - Conferir no fim: **cruzamentos entre tubos = 0** e nenhum trecho que volta.
@@ -316,8 +330,8 @@ Vale quando o levantamento mostra tubos individuais saindo da prumada: um por ch
 - **Chegada:**
   - avaliar os 4 lados do símbolo;
   - penalizar o trecho final que passa por outro símbolo, inclusive do mesmo grupo.
-- **No equipamento:** um tubo com T em cada derivação e LB em cada sensor. Condulete só aí, na saída e na chegada; curva de feixe sem caixa.
-- **Força: da chave ao motor, sealtubo** (arco curto no mesmo layer do eletroduto), **só quando a chave está encostada no motor** (até ~0,8 m).
+- **No equipamento:** um tubo com T em cada derivação, LL/LR em cada curva e LB em cada sensor. Os nós vão por posição: o esquadro pode juntar dois nós no mesmo ponto, e cada um ganharia a sua caixa.
+- **Força: da chave ao motor, sealtubo** (arco curto no mesmo layer do eletroduto), **só quando a chave fica perto do motor** (até ~0,8 m; até 1,3 m quando o campo mostra o sealtubo). Motor colado na prumada não tem como receber eletroduto da prumada: vai sealtubo da chave.
 - **Onde o leito anda em planta, a fiação de força passa pelo leito, sem cortar caminho** [engenheiro]:
   - sealtubo longo atravessando o piso não existe;
   - chave longe do motor: o cabo volta da chave ao leito pelo eletroduto da chave, que leva 2 cabos (chegada do CCM e saída para o motor; na legenda, "2x" e o texto "chegada do CCM e saída p/ motor pelo leito");
