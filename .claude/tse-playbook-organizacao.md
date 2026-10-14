@@ -89,6 +89,8 @@ Método validado: **partir de um projeto-exemplo aprovado** (ex.: estrutura do C
 - **VERIFICAÇÃO INDEPENDENTE (obrigatória antes de emitir)**: recalcular contagens e fórmulas **em Python**, fora do Excel, e conferir contra a planilha. Cálculo de engenharia = Claude gera, **Samuel valida** (responsabilidade técnica é dele).
 
 ## 12. Automação CAD e ProElétrica
+**ANTES DE QUALQUER DESENHO (Planta de Pontos / Projeto de Força): ler `.claude/padrao-tse-desenho-infraestrutura.md`** — o padrão TSE completo levantado dos modelos (folha A0, camadas/textos, pontos, traçado econômico, conduletes só onde têm função, bitola, SOBE/DESCE com destino, fiação de instrumentação e de força por letra, notas, revisão e armadilhas de automação). O que não estiver lá: perguntar ao engenheiro antes de fazer.
+
 **Arquitetura "Python cérebro + LISP mão":**
 - **Python** (ezdxf/openpyxl) lê as fontes (planilhas, DXF), calcula, cruza tag×carga×cabo×I/O e **gera a tabela de posições/atributos** + as listas — mesma fonte de dados para desenho e planilhas = coerência.
 - **AutoLISP** (rotina .lsp fina, carregada via APPLOAD, rodada pelo Samuel no AutoCAD) lê essa tabela e **insere os blocos da biblioteca TSE com atributos**. ezdxf puro quando o entregável é 100% gerado (overlay em DXF pronto).
