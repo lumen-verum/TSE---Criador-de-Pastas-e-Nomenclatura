@@ -270,6 +270,12 @@ Contagem por tipo de nó. "Com" quer dizer condulete a até 0,15 m do nó.
   - HATCH vira rosquinha (LWPOLYLINE de 2 vértices com largura = raio).
 - **Antes de mover símbolo,** comparar a posição do DXF de orientação com o **próprio DWG da revisão anterior** (dump por handle), não com backup do DXF. O DXF de orientação pode ter vindo com grupos já realocados.
 - **Conferir no PDF plotado e no DWG** (dump de posições), não só no script.
+- **Posição de motor, chave ou instrumento = o bloco, por handle.** Nunca deduzir do texto com deslocamento fixo: o organizador de textos já pode ter afastado o texto, e o eletroduto chega 0,4–1,1 m fora do símbolo.
+  - Bloco anônimo (`*Unn`) sem atributo: associar texto → bloco na revisão anterior, onde o texto ainda estava no lugar de origem, e ler a posição atual do bloco pelo handle.
+  - Conferir que toda ponta de eletroduto e de sealtubo cai na borda do símbolo (raio ± 0,03 m).
+- **Texto girado −90° ocupa a área abaixo do ponto de inserção.** Tratar só +90° faz o obstáculo cair do lado errado, e o organizador põe outro texto em cima.
+- **Script que apaga por handle a partir de um dump só vale para aquele estado do DWG.** Depois de aplicar, refazer o dump antes de gerar de novo, senão o que acabou de ser criado fica duplicado.
+- **`(load "arquivo.lsp")` no accoreconsole é cancelado** ("File load canceled") para pasta fora dos caminhos confiáveis. Linha de script acima de ~2000 caracteres trava o console: quebrar a linha ou omitir a definição de bloco que o DWG já tem.
 
 ## 14. Fluxo de as-built que funcionou
 
@@ -311,7 +317,22 @@ Vale quando o levantamento mostra tubos individuais saindo da prumada: um por ch
   - avaliar os 4 lados do símbolo;
   - penalizar o trecho final que passa por outro símbolo, inclusive do mesmo grupo.
 - **No equipamento:** um tubo com T em cada derivação e LB em cada sensor. Condulete só aí, na saída e na chegada; curva de feixe sem caixa.
-- **Força: da chave ao motor, sealtubo** (arco curto no mesmo layer do eletroduto).
+- **Força: da chave ao motor, sealtubo** (arco curto no mesmo layer do eletroduto), **só quando a chave está encostada no motor** (até ~0,8 m).
+- **Onde o leito anda em planta, a fiação de força passa pelo leito, sem cortar caminho** [engenheiro]:
+  - sealtubo longo atravessando o piso não existe;
+  - chave longe do motor: o cabo volta da chave ao leito pelo eletroduto da chave, que leva 2 cabos (chegada do CCM e saída para o motor; na legenda, "2x" e o texto "chegada do CCM e saída p/ motor pelo leito");
+  - o motor recebe eletroduto próprio, saindo do leito no ponto mais perto dele, reto quando der;
+  - eletroduto que sai pela ponta do leito começa na face da ponta, não 0,15 m antes.
+- **Compatibilização (o traçado tem que ser real)** [engenheiro: "passando dentro do elevador, isso é impossível"]. Mapa de obstáculos por nível, em grade de 0,1 m:
+  - **prédio** = o que não se alcança da borda sem cruzar estrutura da planta (estrutura engordada 0,6 m para fechar vãos, preenchimento a partir da borda, depois fechamento de volta). Fora do prédio é proibido;
+  - **duro** (proibido): caixa do elevador em cada nível, silo onde ele é corpo cheio;
+  - **mole** (caro, ~12 por metro): equipamento do 3D cujo intervalo de elevação pega a altura do eletroduto (piso +0,3 a +3,0 m). Tubulação fica de fora;
+  - perto da estrutura fica mais barato (o tubo vai preso nela);
+  - libera um raio pequeno em volta do terminal (0,22 m; 0,55 m se o instrumento está montado no próprio equipamento duro) e da prumada;
+  - para cada ligação, avaliar o L e também Z e U (trecho do meio deslocado de 0,25 em 0,25 m, até 3 m) sobre esse custo. Busca em grade pura dá degraus e dezenas de cruzamentos.
+  - Conferir no fim: trechos em área proibida = 0.
+- **Rótulo do leito e "COBRE NU":** escolher o trecho e o lado onde não encobrem texto, símbolo ou eletroduto. O cobre nu fica do lado oposto ao rótulo.
+- **Chamada da letra:** não cruza outra chamada nem outro eletroduto.
 - **Fiação com feixe:**
   - uma letra em círculo por tubo;
   - um quadro "LEGENDA DE CABOS" por nível: na força, carga/chave/formação; na instrumentação, equipamento e, por tipo, símbolo e quantidade;

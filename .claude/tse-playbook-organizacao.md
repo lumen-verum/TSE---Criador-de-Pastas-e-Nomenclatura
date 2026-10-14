@@ -356,4 +356,11 @@ Método validado: **partir de um projeto-exemplo aprovado** (ex.: estrutura do C
     - tira-se a folha e as referências das outras folhas;
     - registra-se em nota que as plantas não foram enviadas apesar de solicitadas;
     - renumera-se as folhas.
-
+- **2026-10-14** — **Compatibilização com o 3D e fiação pelo leito.**
+  - **Traçado tem que ser real:** nada passa por dentro do elevador, por silo ou fora do prédio, e o equipamento do 3D na altura do tubo é evitado. Método (mapa de obstáculos + formas L/Z/U) em `padrao-tse-desenho-infraestrutura.md` §15.
+  - **Onde o leito anda em planta, a força passa pelo leito.** Chave longe do motor: o cabo volta ao leito pelo eletroduto da chave e o motor tem eletroduto próprio saindo do leito. Sealtubo só de chave encostada no motor.
+  - **Revisão de campo × desenho em paralelo** (um agente por grupo de níveis, cruzando fotos, vídeo e notas de campo com o PDF): acha tag trocada, ponto no nível errado e chave no lugar errado.
+    - Cada achado vem com certeza (visto / provável / não visto).
+    - Antes de repassar, conferir contra o desenho atual: um achado já tinha sido resolvido pela compatibilização.
+    - Mudar ponto de lugar é decisão do engenheiro: só se lista, não se move.
+  - **Posição de símbolo vem do bloco, por handle**, nunca do texto: texto já movido pelo organizador fez 12 motores ficarem fora do símbolo.
