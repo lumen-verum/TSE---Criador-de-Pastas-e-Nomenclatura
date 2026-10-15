@@ -277,6 +277,13 @@ Contagem por tipo de nó. "Com" quer dizer condulete a até 0,15 m do nó.
 - **Espaço de papel:** `entnext` só percorre o modelo e o layout ativo. Para os outros layouts, usar `(ssget "_X" '((410 . "~Model")))`.
   - Texto do carimbo que é igual em todas as folhas (total "/03") fica dentro do bloco do carimbo: muda por `handent`/`entmod` uma vez só.
 - **Tirar uma prancha:** apagar o layout, o desenho dela no modelo (filtro pelo ponto de referência numa janela; no HATCH, o 2º grupo 10), renomear as outras e trocar o total no carimbo. O PDF antigo vai para Superados.
+  - Se a prancha tinha imagem (raster da base), desanexar com `-IMAGE` `_D`. Senão sobra uma referência órfã, que pode apontar para pasta temporária, e quem recebe o DWG vê "imagem não encontrada".
+  - Blocos com ponto de inserção longe do desenho (blocos 3D dos detalhes) escapam do filtro por janela.
+- **Pacote de entrega:**
+  - DWG salvo em formato 2013 (abre do AutoCAD 2013 ao 2017; o cliente pede "DWG 2016") por `SAVEAS "2013"` no console, aberto como `/readonly`;
+  - antes, conferir que não há XREF nem imagem anexada;
+  - salvar num caminho ASCII e copiar com o nome oficial (acento no caminho falha no console);
+  - PDFs de cada folha e as planilhas na última revisão, numa pasta datada na raiz do projeto.
 - **`(load "arquivo.lsp")` no accoreconsole é cancelado** ("File load canceled") para pasta fora dos caminhos confiáveis. Linha de script acima de ~2000 caracteres trava o console: quebrar a linha ou omitir a definição de bloco que o DWG já tem.
 
 ## 14. Fluxo de as-built que funcionou
