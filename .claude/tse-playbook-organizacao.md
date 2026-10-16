@@ -369,3 +369,18 @@ Método validado: **partir de um projeto-exemplo aprovado** (ex.: estrutura do C
   - O feixe passou de 0,07 para 0,12 m para caber uma caixa por curva.
   - Auditoria obrigatória antes de aplicar e depois, no DWG: trechos tortos, curvas sem condulete, pernas curtas e conduletes encavalados. Método em `padrao-tse-desenho-infraestrutura.md` §6 e §15.
   - **Prancha cancelada pelo engenheiro** (ex.: detalhes típicos): sai o layout e o desenho dela no modelo, renumeram-se as folhas e o PDF antigo vai para Superados.
+- **2026-10-16** — **Encerramento: report a 100% e cronograma "para o real".**
+  - **Report final:**
+    - novo report como cópia do anterior (fluxo do §8; a ferramenta é `tools/novo_report_semanal.py`);
+    - % atual = 100 e status "Finalizado" em todas as disciplinas;
+    - disciplina sem documento próprio (ex.: aterramento incorporado ao projeto de força) também vai a 100%, com a atividade explicando;
+    - riscos que deixaram de existir viram "Encerrado", com a ação que os encerrou;
+    - plano da semana seguinte = envio da entrega, medição/faturamento e lições aprendidas.
+  - **Cronograma real = nova revisão** (não sobrescrever a anterior), nos 2 arquivos (pasta principal e `Sistema Gerenciamento de Projetos`, regra do §9):
+    - início e fim de cada tarefa nas datas executadas, 100% em tudo;
+    - nomes ajustados ao que foi feito;
+    - interrupções (equipe deslocada para outro projeto, parada da planta) como tarefa de duração zero com o período;
+    - tarefas reordenadas na ordem cronológica, com ID e OutlineNumber refeitos;
+    - FinishDate do projeto = marco final.
+  - **PowerShell + Excel COM:** `@(@(a,b), @(c,d))` achata em uma lista só e a atribuição a `Value2` falha com "Conversão especificada não é válida". Usar `ArrayList.Add(@(...))` ou `,@(...)`.
+    - O `SaveAs` antes das edições deixa uma cópia sem alteração se o script cair: conferir e reabrir a cópia.
