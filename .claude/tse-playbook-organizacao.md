@@ -405,3 +405,6 @@ Método validado: **partir de um projeto-exemplo aprovado** (ex.: estrutura do C
     - O `attrib` pula, sem avisar, caminhos com 260 caracteres ou mais, e não altera arquivos ocultos. Nos longos, usar `SetFileAttributesW` com o prefixo `\\?\`.
     - Na primeira passada, arquivos grandes (vídeos) podem ficar no disco e perder a marcação: reaplicar neles.
     - `.tmp` não sincroniza e continua no disco.
+  - **Apagar a pasta local (só a pedido do engenheiro):** antes, conferir por MD5 tudo o que ainda não foi conferido. Depois, mandar para a Lixeira (`SHFileOperation` com `FOF_ALLOWUNDO` e `FOF_WANTNUKEWARNING`), começando pela pasta menor.
+    - Com caminho longo, o Windows abre a janela "Deseja excluir esta pasta permanentemente?". Não aceitar: encerrar a operação, ver o que sobrou, encurtar as pastas e mandar o restante para a Lixeira. Pasta vazia sai com remoção não recursiva.
+    - Arquivo só na nuvem não aparece na Lixeira do Windows: a recuperação é pela lixeira do OneDrive na web.
