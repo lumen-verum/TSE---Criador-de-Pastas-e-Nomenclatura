@@ -384,3 +384,17 @@ Método validado: **partir de um projeto-exemplo aprovado** (ex.: estrutura do C
     - FinishDate do projeto = marco final.
   - **PowerShell + Excel COM:** `@(@(a,b), @(c,d))` achata em uma lista só e a atribuição a `Value2` falha com "Conversão especificada não é válida". Usar `ArrayList.Add(@(...))` ou `,@(...)`.
     - O `SaveAs` antes das edições deixa uma cópia sem alteração se o script cair: conferir e reabrir a cópia.
+- **2026-11-04** — **Projeto finalizado: cópia para o servidor.**
+  - **Destino:** projeto de instalações fica em `Y:\Departamento de Projetos\CLIENTE\CIDADE\NNNN - PROJ NOME`. `Y:\Projetos - Clientes` guarda os painéis, com número vizinho, e não é o destino.
+  - **Mapear antes de copiar:** a pasta costuma já existir no servidor, com parte do conteúdo.
+    - Comparar por caminho, tamanho e data, nos dois sentidos.
+    - Procurar também por nome e tamanho em qualquer subpasta: a pasta local pode ser só um recorte de uma estrutura diferente. Nesse caso, copiar a pasta inteira cria uma árvore paralela; levar só o que falta, cada arquivo para a subpasta certa.
+  - **Só acrescentar, nunca espelhar:** `robocopy origem destino /E /XO /FFT /COPY:DT /DCOPY:T /R:2 /W:5`. Nada de `/MIR` nem `/PURGE`, porque o servidor pode ter arquivos que não estão na máquina.
+    - Excluir temporários: `/XF ~$* *.dwl *.dwl2 Thumbs.db plot.log *.tmp *.err desktop.ini`.
+    - Rodar antes com `/L` e conferir se as contagens batem com o mapa, inclusive os arquivos substituídos.
+    - Códigos de saída abaixo de 8 são sucesso.
+  - **Depois de copiar:** conferir por MD5 os arquivos copiados, usando a lista do log do robocopy.
+  - **Avisar o engenheiro:**
+    - revisão movida para `Superados` na máquina continua no lugar antigo no servidor, porque nada é apagado;
+    - caminho com 260 caracteres ou mais copia sem erro, mas pode não abrir direto no AutoCAD ou no Explorer;
+    - arquivo só na nuvem do OneDrive baixa ao ser lido: comparar por nome e tamanho, sem calcular hash.
