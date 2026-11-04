@@ -400,3 +400,8 @@ Método validado: **partir de um projeto-exemplo aprovado** (ex.: estrutura do C
     - revisão movida para `Superados` na máquina continua no lugar antigo no servidor, porque nada é apagado;
     - caminho com 260 caracteres ou mais copia sem erro, mas pode não abrir direto no AutoCAD ou no Explorer;
     - arquivo só na nuvem do OneDrive baixa ao ser lido: comparar por nome e tamanho, sem calcular hash.
+  - **Liberar espaço depois da cópia:** deixar só na nuvem do OneDrive (`attrib -P +U` na pasta e em `pasta\* /S /D`), em vez de apagar. As pastas continuam visíveis e dá para desfazer.
+    - Testar antes na pasta menor. O OneDrive libera aos poucos: esperar o espaço estabilizar e conferir o que sobrou no disco.
+    - O `attrib` pula, sem avisar, caminhos com 260 caracteres ou mais, e não altera arquivos ocultos. Nos longos, usar `SetFileAttributesW` com o prefixo `\\?\`.
+    - Na primeira passada, arquivos grandes (vídeos) podem ficar no disco e perder a marcação: reaplicar neles.
+    - `.tmp` não sincroniza e continua no disco.
