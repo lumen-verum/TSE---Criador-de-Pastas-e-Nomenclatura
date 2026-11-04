@@ -389,6 +389,8 @@ Método validado: **partir de um projeto-exemplo aprovado** (ex.: estrutura do C
   - **Mapear antes de copiar:** a pasta costuma já existir no servidor, com parte do conteúdo.
     - Comparar por caminho, tamanho e data, nos dois sentidos.
     - Procurar também por nome e tamanho em qualquer subpasta: a pasta local pode ser só um recorte de uma estrutura diferente. Nesse caso, copiar a pasta inteira cria uma árvore paralela; levar só o que falta, cada arquivo para a subpasta certa.
+    - Antes de dizer que um arquivo falta, procurar pelo tamanho exato com qualquer nome e confirmar por MD5: ele pode estar renomeado (cópia do E-Clic, ou `.bak` gerado quando o AutoCAD salvou uma versão nova). Nome e tamanho não bastam.
+    - Mesmo nome e data mais nova no destino: não sobrescrever.
   - **Só acrescentar, nunca espelhar:** `robocopy origem destino /E /XO /FFT /COPY:DT /DCOPY:T /R:2 /W:5`. Nada de `/MIR` nem `/PURGE`, porque o servidor pode ter arquivos que não estão na máquina.
     - Excluir temporários: `/XF ~$* *.dwl *.dwl2 Thumbs.db plot.log *.tmp *.err desktop.ini`.
     - Rodar antes com `/L` e conferir se as contagens batem com o mapa, inclusive os arquivos substituídos.
